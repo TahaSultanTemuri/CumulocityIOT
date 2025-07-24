@@ -1,7 +1,10 @@
-# Admin template based on Angular 8+ and <a href="https://github.com/akveo/nebular">Nebular</a>
+# IOT Device Management using Angular 8+ and <a href="https://github.com/akveo/nebular">Nebular</a>
 <a target="_blank" href="http://akveo.com/ngx-admin/pages/dashboard?theme=corporate&utm_source=github&utm_medium=ngx_admin_readme&utm_campaign=main_pic"><img src="https://i.imgur.com/mFdqvgG.png"/></a>
 
 
+### What we have customized?:
+
+-We have customized this theme for our IOT based project to monitor gas and water consumption using cumulocityAPIs
 
 
 #### Default
@@ -27,6 +30,3 @@
 - Authentication module with multiple providers
 
 
-### What we have customized?:
-
--We have customized this theme for our IOT based project to monitor gas and water consumption using cumulocityAPIs
