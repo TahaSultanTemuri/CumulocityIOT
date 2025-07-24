@@ -42,12 +42,6 @@ Easy way to integrate ngx-admin with backend (.NET, Node.js, Java etc.).
 - 40+ Angular Components
 - 60+ Usage Examples
 
-### Demo
-
-<a target="_blank" href="http://akveo.com/ngx-admin/">Live Demo</a>
-
-## Documentation
-This template is using [Nebular](https://github.com/akveo/nebular) modules set, [here you can find documentation and other useful articles](https://akveo.github.io/nebular/docs/guides/install-based-on-starter-kit).
 
 ### Empty starter kit
 Don't need all the pages and modules and just looking for an empty starter kit for your next project? Check out our [starter-kit branch](https://github.com/akveo/ngx-admin/tree/starter-kit).
@@ -57,20 +51,3 @@ This project runs its tests on multiple desktop and mobile browsers using [Brows
 
 <img src="https://cloud.githubusercontent.com/assets/131406/22254249/534d889e-e254-11e6-8427-a759fb23b7bd.png" height="40" />
 
-## More from Akveo
-
-- [Eva Icons](https://github.com/akveo/eva-icons) - 480+ beautiful Open Source icons
-- [Nebular](https://github.com/akveo/nebular) - Angular Components, Auth and Security
-
-### How can I support developers?
-- Star our GitHub repo :star:
-- Create pull requests, submit bugs, suggest new features or documentation updates :wrench:
-- Follow us on [Twitter](https://twitter.com/akveo_inc) :feet:
-- Like our page on [Facebook](https://www.facebook.com/akveo/) :thumbsup:
-
-### Looking for engineering services? 
-Visit [our homepage](http://akveo.com/) or simply leave us a message to [contact@akveo.com](mailto:contact@akveo.com). We will be happy to work with you!
-
-### From Developers
-Made with :heart: by [Akveo team](http://akveo.com/). Follow us on [Twitter](https://twitter.com/akveo_inc) to get the latest news first!
-We're always happy to receive your feedback!
