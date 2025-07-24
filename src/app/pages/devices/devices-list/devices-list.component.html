@@ -1,0 +1,12 @@
+<nb-card>
+  <nb-card-header>
+    All Devices 
+  </nb-card-header>
+
+  <nb-card-body>
+    <ng2-smart-table *ngIf="data" [settings]="settings" [source]="source"
+    (userRowSelect)="onUserRowSelect($event)"
+    (deleteConfirm)="onDeleteConfirm($event)">
+    </ng2-smart-table>
+  </nb-card-body>
+</nb-card>

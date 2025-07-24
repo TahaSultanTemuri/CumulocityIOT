@@ -1,0 +1,80 @@
+@import '../../../@theme/styles/themes';
+.sample-container {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  display:inline-block;
+}
+
+ngx-device-info.ng-star-inserted {
+  overflow: scroll;
+}
+
+.sample-container {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  display:inline-block;
+}
+
+.sample-control {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sample-button {
+  margin-bottom: 5px;
+  margin-right: 10px;
+  height: 30px;
+  font: "12px 'Titillium Web', sans-serif"
+}
+
+@include nb-install-component() {
+
+
+  nb-card-body {
+    padding: 0;
+  }
+
+  ::ng-deep agm-map {
+    width: 100%;
+    height: nb-theme(card-height-large);
+  }
+
+
+
+
+
+  
+  
+  }
+
+
+
+
+
+
+
+
+
+ 
+  
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,497 @@
+<div style="overflow:scroll">
+
+ 
+
+    <nb-card>
+    
+    <!-- <nb-card size="large"> -->
+      <nb-tabset fullWidth>
+
+        <nb-tab tabTitle="Controls" 
+        badgeText="{{this.totalBulkOperations}}"
+        badgeStatus="danger"
+        *ngIf="this.managedObject.controls">
+        
+        
+        
+        <div class="steppers-container row" *ngIf="this.managedObject.controls.operations">
+
+        
+          <div class="col-md-12 col-lg-6 col-xxxl-6" *ngIf="this.managedObject.controls.operations.length>0">
+              <nb-accordion *ngFor="let controls of this.managedObject.controls.operations">
+        
+                  <nb-accordion-item #item  [expanded]="true">
+                      <nb-accordion-item-header>
+                       {{controls.status}}
+        
+                      </nb-accordion-item-header>
+                      <nb-accordion-item-body>
+<div>
+  
+                       <b>Controls ID:</b>{{controls.id}}<br>
+                        <b>Device ID:</b>{{controls.deviceId}}<br>
+
+                        <b>Creation time:</b>{{this.convertDate(controls.creationTime,'local')}}<br>
+                        <b>Description:</b>{{controls.description}}<br>
+</div>
+                     
+                    <div *ngFor="let audit of this.auditRecord.GetAuditRecord(controls.id,false,true,100).auditRecords | async">
+                      <h5> HISTORY OF CHANGES</h5>
+                 
+                    </div>
+
+
+
+                      </nb-accordion-item-body>
+                    </nb-accordion-item>
+              </nb-accordion>
+          </div>
+        </div>
+        
+
+       
+         
+        
+        
+        
+        
+          
+        </nb-tab>
+        
+       
+
+
+<nb-tab tabTitle="Configuration" *ngIf="this.managedObject.c8y_SupportedOperations"  >
+
+  <div  *ngIf="this.doesContain(this.managedObject.c8y_SupportedOperations,'c8y_Configuration')">
+
+
+    <nb-card>
+      <nb-card-body class="example-items-rows">
+        <form>
+        
+          <div class="form-group">
+            <textarea #configurationTxt nbInput placeholder="Message" rows="10" cols="90"></textarea>
+          </div>
+          <button type="submit" nbButton status="success" (click)="PostConfigurations(configurationTxt.value)">Send</button>
+        </form>
+      
+      </nb-card-body>
+    </nb-card>
+
+
+   
+   
+  </div>
+
+  <div *ngIf="!this.doesContain(this.managedObject.c8y_SupportedOperations,'c8y_Configuration')">
+    <b>No configuration</b>
+
+  </div>
+</nb-tab>
+
+        <nb-tab tabTitle="Info" >
+        
+            <div class="steppers-container row" *ngIf="this.managedObject">
+                <div class="col-md-12 col-lg-6 col-xxxl-6">
+
+                 
+
+
+
+               
+
+                    <nb-accordion>
+
+                        <nb-accordion-item #item [expanded]="true">
+                            <nb-accordion-item-header>
+                              Device Data
+          
+                            </nb-accordion-item-header>
+                            <nb-accordion-item-body>
+                              
+                               <b>Device ID:</b> {{this.managedObject.id}}<br>
+                              <b> Name:</b> {{this.managedObject.name}}<br>
+                            <b>Type:</b>   {{this.managedObject.type}}<br>
+                             <b>Last Update :</b>   {{ this.managedObject.lastUpdated}}
+                            </nb-accordion-item-body>
+                          </nb-accordion-item>
+      
+                 
+                
+                      <nb-accordion-item [expanded]="true">
+                        <nb-accordion-item-header>
+                          Active Alarms Status
+      
+                        </nb-accordion-item-header>
+                        <nb-accordion-item-body>
+<div *ngIf="this.managedObject.c8y_ActiveAlarmsStatus">
+
+  <div *ngFor="let item of this.managedObject.c8y_ActiveAlarmsStatus | keyvalue"> <b> {{this.firstUpper(item.key)}}</b>  {{item.value}}<br></div>  
+
+</div>
+
+                
+                        </nb-accordion-item-body>
+                      </nb-accordion-item>
+                
+                      <nb-accordion-item [expanded]="true">
+                        <nb-accordion-item-header>
+                          Availability
+                        </nb-accordion-item-header>
+                        <nb-accordion-item-body >
+                      <div *ngIf="this.managedObject.c8y_Availability!=null"> <b> Status :</b>{{this.managedObject.c8y_Availability.status }}</div> <br>
+                <div *ngIf="this.managedObject.c8y_Availability!=null">
+                    <b>Last Message :</b>    {{this.managedObject.c8y_Availability.lastMessage}}
+
+                </div>    <br>
+                        </nb-accordion-item-body>
+                      </nb-accordion-item>
+      
+      
+                      <nb-accordion-item [expanded]="true">
+                        <nb-accordion-item-header>
+                          Connection
+                        </nb-accordion-item-header>
+                        <nb-accordion-item-body>
+                       
+                          <div *ngIf="this.managedObject.c8y_Connection"><b>Status :</b>{{this.managedObject.c8y_Connection.status}}</div>
+                        </nb-accordion-item-body>
+                      </nb-accordion-item>
+      
+      
+      
+                      <nb-accordion-item [expanded]="true">
+                        <nb-accordion-item-header>
+                          Hardware
+                        </nb-accordion-item-header>
+                        <nb-accordion-item-body>
+
+                          <div *ngIf="this.managedObject.c8y_Hardware!=null">
+                              <b>Model :</b>  {{this.managedObject.c8y_Hardware.model}}<br>
+                              <b>Revision :</b>    {{this.managedObject.c8y_Hardware.revision}}<br>
+                             <b>Creation Time :</b>     {{ this.managedObject.c8y_Hardware.creationTime}}
+              
+
+                          </div>
+                       
+                        </nb-accordion-item-body>
+                      </nb-accordion-item >
+      
+
+
+                       <nb-accordion-item *ngIf="this.managedObject.c8y_Position" [expanded]="true">
+                          <nb-accordion-item-header>
+                            Position
+                          </nb-accordion-item-header>
+                          <nb-accordion-item-body >
+                         
+                            <div ><b>Latitude :</b>{{this.managedObject.c8y_Position.lat}}</div>
+                            <div ><b>Longitude :</b>{{this.managedObject.c8y_Position.lng}}</div>
+
+                          </nb-accordion-item-body>
+                        </nb-accordion-item>
+      
+                      <nb-accordion-item *ngIf="this.managedObject.c8y_RequiredAvailability" [expanded]="true">
+                        <nb-accordion-item-header>
+                          Required Availability
+      
+                        </nb-accordion-item-header>
+                        <nb-accordion-item-body>
+                          <div ><b>Response interval :</b>{{this.managedObject.c8y_RequiredAvailability.responseInterval}}</div>
+
+                        </nb-accordion-item-body>
+                      </nb-accordion-item> 
+                     </nb-accordion> 
+                </div>
+              
+                <!-- <div class="col-md-12 col-lg-6 col-xxxl-6">
+                  <nb-card size="medium">
+                    <nb-card-body>
+
+              
+                    </nb-card-body>
+                  </nb-card>
+                </div> -->
+              </div>
+        </nb-tab>
+    
+    
+        <nb-tab  tabTitle="Measurment" 
+        badgeText="{{this.totalMeasurments}}"
+badgeStatus="danger"
+         *ngIf="this.managedObject.c8y_SupportedMeasurements"
+         
+         >
+<div  *ngIf="this.managedObject.c8y_SupportedMeasurements.length>0">
+
+  
+  <nb-card  *ngFor="let item of this.managedObject.c8y_SupportedMeasurements">
+    
+    <nb-card-header > {{item.replace('c8y_','')}} </nb-card-header>
+
+
+    <!--4 WIRE METER CASE-->
+    <nb-card-body *ngIf="this.Id==23441236 && this.managedObject.series">
+     
+    <div  *ngIf="this.managedObject.series.measurements">
+      <div class="row"  *ngIf="this.managedObject.series.measurements.length>0">
+        <div class="col-sm-4" *ngFor="let pin of GetSeriesByName(item) | keyvalue">
+
+         <!-- <ngx-temperature  [val]="pin"  [isHumidity]="false" [showRadioGroup]="false"></ngx-temperature>
+-->
+<div class="sample-control" >
+
+	<ngx-gauge 
+  size=100
+  max="{{GetMaxPin(item)}}"
+  [type]="gaugeType" 
+  [value]="pin.value.value" 
+  [label]="item.replace('c8y_','')" 
+  [append]="pin.value.unit"
+  >
+	</ngx-gauge>
+<!-- 
+<igx-radial-gauge
+#radialGauge
+height="330px"
+width="100%"
+value="{{pin.value.value}}"
+interval=5
+minimumValue=0
+maximumValue=150
+
+labelInterval=5
+labelExtent=0.71
+minorTickCount=4
+minorTickEndExtent=.625
+minorTickStartExtent=.6
+minorTickStrokeThickness=1
+minorTickBrush = "#79797a"
+tickStartExtent=.6
+tickEndExtent=.65
+tickStrokeThickness=2
+tickBrush = "#79797a"
+needleShape="Triangle"
+needleEndWidthRatio=0.03
+needleStartWidthRatio=0.05
+needlePivotShape="CircleOverlay"
+needlePivotWidthRatio=0.15
+needleBaseFeatureWidthRatio=0.15
+needleBrush="#79797a"
+needleOutline="#79797a"
+needlePivotBrush="#79797a"
+needlePivotOutline="#79797a"
+isNeedleDraggingEnabled=true
+backingBrush="#fcfcfc"
+backingOutline="#d6d6d6"
+backingStrokeThickness=5
+scaleStartAngle=120
+scaleEndAngle=60
+scaleBrush="#d6d6d6"
+rangeBrushes="#F86232, #DC3F76, #7446B9"
+rangeOutlines="#F86232, #DC3F76, #7446B9">
+
+</igx-radial-gauge>
+{{pin.value.value}} -->
+</div>
+        </div>
+
+      </div>
+
+     
+ 
+
+    </div>
+
+
+    </nb-card-body>
+
+    <nb-card-body *ngIf="this.Id!=23441236">
+
+  
+     
+            <ngx-earning-card-front  [showSelect]="false" ></ngx-earning-card-front> 
+
+          
+      
+
+
+
+
+    </nb-card-body>
+
+
+  </nb-card>
+</div>
+      
+
+<div *ngIf="this.managedObject.c8y_SupportedMeasurements.length==0">
+
+<b>No Measurments</b>
+</div>
+
+        
+        </nb-tab>
+
+<nb-tab tabTitle="Events" 
+badgeText="{{this.totalEvents}}"
+badgeStatus="danger"
+*ngIf="this.managedObject.events" >
+
+
+
+<div class="steppers-container row" *ngIf="this.managedObject.events.events">
+  <div class="col-md-12 col-lg-6 col-xxxl-6" >
+
+ 
+      <nb-accordion *ngFor="let event of this.managedObject.events.events">
+
+          <nb-accordion-item #item [expanded]="true">
+              <nb-accordion-item-header>
+               {{event.text}}
+
+              </nb-accordion-item-header>
+              <nb-accordion-item-body>
+                
+                <b>Creation time :</b>{{this.convertDate(event.creationTime,'local')}}<br>
+                <b>Text :</b>{{event.text}}<br>
+                <b>Type</b>{{event.type}}<br>
+            
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+      </nb-accordion>
+  </div>
+</div>
+
+ 
+
+<div *ngIf="!this.managedObject.events.events">
+  <b>No Events</b>
+</div>
+
+
+
+
+  
+</nb-tab>
+
+        <nb-tab tabTitle="Alarm"
+        badgeText="{{this.totalAlarms}}"
+        badgeStatus="danger" 
+        
+        *ngIf="this.criticalAlarm || this.warningAlarm || this.minorAlarm || this.majorAlarm"
+         >
+            <div class="infinite-cards row">
+           
+              <div class="col-md-12 col-lg-6 col-xxxl-6" *ngIf="this.criticalAlarm">
+                  <nb-card class="own-scroll" >
+                    <nb-card-header style="background-color: red">CRITICAL {{this.criticalAlarm.length}} </nb-card-header>
+                    <nb-list *ngIf="this.criticalAlarm"
+                      nbInfiniteList
+                      [threshold]="500"
+                      (bottomThreshold)="loadNext(firstCard)">
+                      <nb-list-item   *ngFor="let item of this.criticalAlarm; index as i;">
+                          <div *ngIf="item.source"><b >Name :</b>{{item.source.name}}</div> <br>
+                          <b>Text :</b>{{item.text}}<br>
+                          <b>Status :</b> {{item.status}}<br>
+                        <b>Creation : </b> {{this.convertDate(item.creationTime,'local')}}
+                      </nb-list-item>
+
+
+                    
+                    </nb-list>
+                  </nb-card>
+                </div>
+              <div class="col-md-12 col-lg-6 col-xxxl-6" *ngIf="this.warningAlarm">
+                  <nb-card class="own-scroll">
+                    <nb-card-header style="background-color: blue">WARNING {{this.warningAlarm.length}}</nb-card-header>
+                    <nb-list *ngIf="this.warningAlarm"
+                      nbInfiniteList
+                      [threshold]="500"
+                      (bottomThreshold)="loadNext(firstCard)">
+                      <nb-list-item   *ngFor="let item of this.warningAlarm; index as i;">
+                          <div *ngIf="item.source"><b >Name :</b>{{item.source.name}}</div> <br>
+                          <b>Text :</b>{{item.text}}<br>
+                          <b>Status :</b> {{item.status}}<br>
+                        <b>Creation : </b> {{this.convertDate(item.creationTime,'local')}}
+                      </nb-list-item>
+                     
+                    </nb-list>
+                  </nb-card>
+                </div>
+
+                <div class="col-md-12 col-lg-6 col-xxxl-6" *ngIf="this.minorAlarm">
+                    <nb-card class="own-scroll">
+                      <nb-card-header style="background-color: yellow">MINOR {{this.minorAlarm.length}}</nb-card-header>
+                      <nb-list *ngIf="this.minorAlarm"
+                        nbInfiniteList
+                        [threshold]="500"
+                        (bottomThreshold)="loadNext(firstCard)">
+                        <nb-list-item   *ngFor="let item of this.minorAlarm; index as i;">
+                            <div *ngIf="item.source"><b >Name :</b>{{item.source.name}}</div> <br>
+                            <b>Text :</b>{{item.text}}<br>
+                            <b>Status :</b> {{item.status}}<br>
+                          <b>Creation : </b>  {{this.convertDate(item.creationTime,'local')}}
+                        </nb-list-item>
+                       
+                      </nb-list>
+                    </nb-card>
+                  </div>
+
+
+                  <div class="col-md-12 col-lg-6 col-xxxl-6" *ngIf="this.majorAlarm">
+                      <nb-card class="own-scroll">
+                        <nb-card-header style="background-color: orange">MAJOR {{this.majorAlarm.length}} </nb-card-header>
+                         
+                      
+
+                        <nb-list *ngIf="this.majorAlarm"
+                         >
+                          <nb-list-item   *ngFor="let item of this.majorAlarm; index as i;">
+                        <div *ngIf="item.source"><b >Name :</b>{{item.source.name}}</div> <br>
+                              <b>Text :</b>{{item.text}}<br>
+                              <b>Status :</b> {{item.status}}<br>
+                            <b>Creation : </b>  {{this.convertDate(item.creationTime,'local')}}
+                          </nb-list-item>
+                         
+                         
+                        </nb-list>
+                      </nb-card>
+                    </div>
+
+            </div>
+         
+        </nb-tab>
+
+
+
+
+        <nb-tab tabTitle="Identity" >
+          <div *ngIf="this.managedObject.identity">
+
+            <div *ngIf="this.managedObject.identity.externalIds">
+<div *ngIf="this.managedObject.identity.externalIds.length>0">
+  <b>External ID:</b>{{this.managedObject.identity.externalIds[0].externalId}}
+
+</div>
+            </div>
+          </div>
+        </nb-tab>
+
+        <nb-tab tabTitle="Map" >
+            <nb-card>
+                <nb-card-header>Google Maps</nb-card-header>
+                <nb-card-body>
+                  <agm-map [latitude]="lat" [longitude]="lng">
+                    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                  </agm-map>
+                </nb-card-body>
+              </nb-card>
+          </nb-tab>
+      </nb-tabset>
+    <!-- </nb-card> -->
+
+    </nb-card>
+  
+</div>
